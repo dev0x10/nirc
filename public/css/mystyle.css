@@ -1,0 +1,7 @@
+
+textarea.chatbox {
+  width:100%;
+  border:1px solid black;
+  resize: none;
+  height:400px;
+}
