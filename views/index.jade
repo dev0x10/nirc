@@ -5,65 +5,52 @@ block body
         ul.title-area
             li.name
                 h1
-                    a(href="#") Top Bar Title
+                    a(href="#") N-irc
             li.toggle-topbar.menu-icon
                 a(href="#")
                     span Menu
+        section.top-bar-section
+            ul.right
+                li
+                    a(href="#", data-reveal-id="sendToRoom") Send To Room
+                li
+                    a(href="#", data-reveal-id="sendToUser") Send To User
 
-    div(ng-controller='AppCtrl')
+    div(ng-controller='AppCtrl').container
         div.row
-            div.large-2.columns &nbsp;
+            div.large-2.columns
+                div.panel Current Room:
+                    p#room Global
 
             div.large-8.columns
                 div.row.collapse
                     div.small-9.columns
+                        input(type="text",placeholder="Room Name", value="global").inline#roomname
+                    div.small-3.columns
+                        a(href="#").button.prefix#setRoom Enter Room
+                div.row.collapse
+                    div.small-9.columns
                         input(type="text",placeholder="Nickname").inline#nickname
                     div.small-3.columns
-                        a(href="#").button.prefix#setNickname Set Nickname
+                        a(href="#").disabled.button.prefix#setNickname Set Nickname
 
-            div.large-2.columns &nbsp;
+            div.large-2.columns
+                div.panel Nickname:
+                    p#nick Guest
 
         div.row
             div.large-2.columns
-                span Room(s) List
-                    ul.side-nav
-                        li
-                            a(href="room1") Room 1
-                        li
-                            a(href="room2") Room 2
-                        li
-                            a(href="room3") Room 3
-                        li
-                            a(href="room4") Room 4
-                        li
-                            a(href="room5") Room 5
-                        li
-                            a(href="room6") Room 6
-                        li
-                            a(href="room7") Room 7
-                        li
-                            a(href="room8") Room 8
-                        li
-                            a(href="room9") Room 9
-                        li
-                            a(href="room10") Room 10
-                        li
-                            a(href="room11") Room 11
-                        li
-                            a(href="room12") Room 12
-                        li
-                            a(href="room13") Room 13
-                        li
-                            a(href="room14") Room 14
-                        li
-                            a(href="room15") Room 15
+                span.label Room(s) List
+                ul.side-nav#roomList
+
             div.large-8.columns
+                h4#status Disconnected
                 textarea.chatbox#chatbox
-                input(type="text", ng-model="message").large#message
-                button.button#send Send
-                button.buton#worldBroadcast World Broadcast
+                input(type="text", ng-model="message", placeholder="Message").large#message
+                button.disabled.button#send Send
+                button.disabled.buton#worldBroadcast World Broadcast
             div.large-2.columns
-                span User(s)
+                span.label User(s)
                 ul.side-nav#userList
 
         footer(class="row")
@@ -83,11 +70,27 @@ block body
                             li
                                 a(href="#") Section 4
 
+        div.reveal-modal(style="display:none")#sendToRoom
+            input(type="text", placeholder="Room Name")
+            input(type="text", placeholder="Message")
+            button.button Send
+            a.close-reveal-modal &#215;
+
+        div.reveal-modal(style="display:none")#sendToUser
+            input(type="text", placeholder="User Name")
+            input(type="text", placeholder="Message")
+            button.button Send
+            a.close-reveal-modal &#215;
+
+    script document.write('<script src=js/vendor/' + ('__proto__' in {} ? 'zepto' : 'jquery') + '.js><\/script>');
     script(src='/socket.io/socket.io.js')
     script(src='bower_components/angular/angular.min.js')
     script(src='bower_components/angular-socket-io/socket.js')
-    script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js')
     script(src='js/myscript.js')
+    script(src='js/foundation/foundation.js')
+    script(src='js/foundation/foundation.reveal.js')
+
+//    script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js')
 //    script(src='js/app.js')
 //    script(src='js/services.js')
 //    script(src='js/controllers.js')

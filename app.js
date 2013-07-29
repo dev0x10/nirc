@@ -64,17 +64,23 @@ io.sockets.on("connection", function(socket){
         room = data.room;
         console.log("JOIN ROOM " + room);
         socket.join(room);
-        io.sockets.in(room).emit("userJoined", socket.id);
+
+        //TODO: if new room, broadcast to all users, update room list
+        io.sockets.sockets[socket.id].get('nickname', function(err, nickname) {
+            io.sockets.in(room).emit("userJoined", socket.id);
+        });
     });
 
     socket.on("set:nickname", function(data) {
-        console.log(data);
-        socket.set('nickname', data.nickname, function () {});
-        })
+        console.log("SET NICKNAME: " + data.nickname);
+        socket.set('nickname', data.nickname, function () {
+            socket.emit("nicknameSet");
+        });
+    })
 
     socket.on("send:message", function (data) {
         console.log("client send message: " + data.message);
-        io.sockets.in(room).emit('newMessage', data)
+        io.sockets.in(room).emit('newMessage', data);
     });
 
     socket.on("send:worldBroadcast", function(data){
@@ -85,14 +91,12 @@ io.sockets.on("connection", function(socket){
     socket.on("list:allRooms", function(data){
         console.log("get request for list all room");
         socket.emit("allRooms", io.sockets.manager.rooms);
+        console.log(io.sockets.manager.rooms);
     })
 
     socket.on("list:allUsersInRoom", function(data){
         console.log("get request for list user in room");
-//        var clients = ;
-//        console.log(clients);
         var clients = [];
-
 
         for(var i=0; i<io.sockets.clients(data.room).length; i++) {
             var objClient = {
